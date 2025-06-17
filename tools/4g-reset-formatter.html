@@ -1,0 +1,923 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Snowbot 4G Proxy Formatter - Reset Edition</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --primary: #3b82f6;
+            --primary-dark: #2563eb;
+            --primary-light: #60a5fa;
+            --secondary: #06b6d4;
+            --bg-dark: #0f172a;
+            --bg-darker: #020617;
+            --bg-card: #1e293b;
+            --bg-input: #334155;
+            --text-primary: #f1f5f9;
+            --text-secondary: #94a3b8;
+            --border: #334155;
+            --success: #10b981;
+            --error: #ef4444;
+            --warning: #f59e0b;
+            --accent: #818cf8;
+            --4g-color: #f59e0b;
+            --reset-color: #dc2626;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+            background-color: var(--bg-dark);
+            color: var(--text-primary);
+            line-height: 1.6;
+            min-height: 100vh;
+        }
+
+        /* Header */
+        .header {
+            background-color: var(--bg-darker);
+            border-bottom: 1px solid var(--border);
+            padding: 1.5rem 0;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            backdrop-filter: blur(10px);
+            background-color: rgba(2, 6, 23, 0.9);
+        }
+
+        .header-content {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 0 2rem;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .logo-container {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .logo-img {
+            width: 48px;
+            height: 48px;
+            border-radius: 50%;
+            box-shadow: 0 4px 12px rgba(59, 130, 246, 0.3);
+            overflow: hidden;
+            background: linear-gradient(135deg, var(--primary) 0%, var(--primary-dark) 100%);
+            padding: 2px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 2rem;
+        }
+
+        .logo-img img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            border-radius: 50%;
+            background: var(--bg-darker);
+        }
+
+        .logo-text {
+            font-size: 1.5rem;
+            font-weight: 700;
+            background: linear-gradient(135deg, var(--primary) 0%, var(--reset-color) 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .version-badge {
+            background: linear-gradient(135deg, var(--reset-color) 0%, var(--error) 100%);
+            color: white;
+            padding: 0.25rem 0.75rem;
+            border-radius: 20px;
+            font-size: 0.75rem;
+            font-weight: 600;
+            margin-left: 0.5rem;
+        }
+
+        /* Main Container */
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 2rem;
+        }
+
+        /* Settings Card */
+        .settings-card {
+            background-color: var(--bg-card);
+            border-radius: 12px;
+            padding: 2rem;
+            margin-bottom: 2rem;
+            border: 1px solid var(--border);
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.3);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .settings-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 3px;
+            background: linear-gradient(90deg, var(--primary) 0%, var(--reset-color) 100%);
+        }
+
+        .settings-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1.5rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .setting-item {
+            display: flex;
+            flex-direction: column;
+            gap: 0.5rem;
+        }
+
+        .setting-label {
+            font-size: 0.875rem;
+            color: var(--text-secondary);
+            font-weight: 500;
+        }
+
+        .setting-input {
+            background-color: var(--bg-input);
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            padding: 0.75rem 1rem;
+            color: var(--text-primary);
+            font-size: 1rem;
+            transition: all 0.2s ease;
+        }
+
+        .setting-input:focus {
+            outline: none;
+            border-color: var(--primary);
+            box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
+        }
+
+        /* Input Section */
+        .input-section {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 2rem;
+            margin-bottom: 2rem;
+        }
+
+        .input-group {
+            display: flex;
+            flex-direction: column;
+            gap: 1.5rem;
+        }
+
+        .input-card {
+            background-color: var(--bg-card);
+            border-radius: 12px;
+            padding: 2rem;
+            border: 1px solid var(--border);
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.3);
+            display: flex;
+            flex-direction: column;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .input-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 2px;
+            background: linear-gradient(90deg, var(--primary) 0%, transparent 100%);
+        }
+
+        .input-card.single-proxy::before {
+            background: linear-gradient(90deg, var(--4g-color) 0%, transparent 100%);
+        }
+
+        .input-card.reset-link::before {
+            background: linear-gradient(90deg, var(--reset-color) 0%, transparent 100%);
+        }
+
+        .card-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 1rem;
+        }
+
+        .card-title {
+            font-size: 1.25rem;
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .card-icon {
+            width: 32px;
+            height: 32px;
+            background: linear-gradient(135deg, var(--primary) 0%, var(--primary-dark) 100%);
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1rem;
+            box-shadow: 0 2px 8px rgba(59, 130, 246, 0.3);
+        }
+
+        .card-icon.orange {
+            background: linear-gradient(135deg, var(--4g-color) 0%, var(--warning) 100%);
+            box-shadow: 0 2px 8px rgba(245, 158, 11, 0.3);
+        }
+
+        .card-icon.red {
+            background: linear-gradient(135deg, var(--reset-color) 0%, var(--error) 100%);
+            box-shadow: 0 2px 8px rgba(220, 38, 38, 0.3);
+        }
+
+        .info-box {
+            background-color: rgba(59, 130, 246, 0.1);
+            border: 1px solid rgba(59, 130, 246, 0.3);
+            padding: 0.75rem 1rem;
+            border-radius: 8px;
+            margin-bottom: 1rem;
+            font-size: 0.875rem;
+            color: var(--text-secondary);
+        }
+
+        .info-box.orange {
+            background-color: rgba(245, 158, 11, 0.1);
+            border: 1px solid rgba(245, 158, 11, 0.3);
+        }
+
+        .info-box.red {
+            background-color: rgba(220, 38, 38, 0.1);
+            border: 1px solid rgba(220, 38, 38, 0.3);
+        }
+
+        .info-box code {
+            background-color: rgba(59, 130, 246, 0.2);
+            padding: 0.125rem 0.375rem;
+            border-radius: 4px;
+            font-family: 'Consolas', 'Monaco', monospace;
+            color: var(--primary-light);
+        }
+
+        .info-box.orange code {
+            background-color: rgba(245, 158, 11, 0.2);
+            color: var(--4g-color);
+        }
+
+        .info-box.red code {
+            background-color: rgba(220, 38, 38, 0.2);
+            color: #ef4444;
+        }
+
+        textarea, input[type="text"] {
+            width: 100%;
+            background-color: var(--bg-input);
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            padding: 1rem;
+            color: var(--text-primary);
+            font-family: 'Consolas', 'Monaco', monospace;
+            font-size: 0.875rem;
+            resize: vertical;
+            transition: all 0.2s ease;
+            flex: 1;
+        }
+
+        textarea {
+            min-height: 350px;
+        }
+
+        .single-proxy-input {
+            min-height: 80px;
+        }
+
+        .reset-input {
+            font-size: 0.875rem;
+        }
+
+        textarea:focus, input[type="text"]:focus {
+            outline: none;
+            border-color: var(--primary);
+            box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
+        }
+
+        .single-proxy-input:focus {
+            border-color: var(--4g-color);
+            box-shadow: 0 0 0 3px rgba(245, 158, 11, 0.1);
+        }
+
+        .reset-input:focus {
+            border-color: var(--reset-color);
+            box-shadow: 0 0 0 3px rgba(220, 38, 38, 0.1);
+        }
+
+        /* Output Format Display */
+        .format-display {
+            background-color: var(--bg-darker);
+            border: 1px solid var(--border);
+            padding: 1rem;
+            border-radius: 8px;
+            margin-bottom: 1rem;
+            font-family: 'Consolas', 'Monaco', monospace;
+            font-size: 0.75rem;
+            color: var(--text-secondary);
+            overflow-x: auto;
+            white-space: nowrap;
+        }
+
+        .format-part {
+            color: var(--primary-light);
+        }
+
+        /* Buttons */
+        .button-container {
+            display: flex;
+            justify-content: center;
+            gap: 1rem;
+            margin: 2rem 0;
+            flex-wrap: wrap;
+        }
+
+        .btn {
+            padding: 0.75rem 1.5rem;
+            border: none;
+            border-radius: 8px;
+            font-size: 1rem;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .btn::before {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 0;
+            height: 0;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.1);
+            transform: translate(-50%, -50%);
+            transition: width 0.6s, height 0.6s;
+        }
+
+        .btn:hover::before {
+            width: 300px;
+            height: 300px;
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, var(--primary) 0%, var(--primary-dark) 100%);
+            color: white;
+            box-shadow: 0 4px 12px rgba(59, 130, 246, 0.4);
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(59, 130, 246, 0.6);
+        }
+
+        .btn-secondary {
+            background-color: var(--bg-input);
+            color: var(--text-primary);
+            border: 1px solid var(--border);
+        }
+
+        .btn-secondary:hover {
+            background-color: var(--bg-darker);
+            border-color: var(--primary);
+            color: var(--primary);
+        }
+
+        /* Stats */
+        .stats-container {
+            background-color: var(--bg-card);
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            padding: 2rem;
+            margin-bottom: 2rem;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.3);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .stats-container::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 3px;
+            background: linear-gradient(90deg, var(--primary) 0%, var(--4g-color) 33%, var(--reset-color) 66%, var(--primary) 100%);
+            background-size: 200% 100%;
+            animation: gradient 3s ease infinite;
+        }
+
+        @keyframes gradient {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1.5rem;
+        }
+
+        .stat-item {
+            background-color: var(--bg-darker);
+            padding: 1.5rem;
+            border-radius: 8px;
+            border: 1px solid var(--border);
+            text-align: center;
+            transition: all 0.3s ease;
+        }
+
+        .stat-item:hover {
+            transform: translateY(-2px);
+            border-color: var(--primary);
+            box-shadow: 0 4px 12px rgba(59, 130, 246, 0.2);
+        }
+
+        .stat-value {
+            font-size: 2rem;
+            font-weight: 700;
+            background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .stat-label {
+            font-size: 0.875rem;
+            color: var(--text-secondary);
+            margin-top: 0.25rem;
+        }
+
+        /* Output Section */
+        .output-card {
+            background-color: var(--bg-card);
+            border-radius: 12px;
+            padding: 2rem;
+            border: 1px solid var(--border);
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.3);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .output-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 3px;
+            background: linear-gradient(90deg, var(--success) 0%, var(--primary) 100%);
+        }
+
+        .output-textarea {
+            background-color: var(--bg-darker);
+            border-color: rgba(59, 130, 246, 0.3);
+        }
+
+        .output-textarea:focus {
+            border-color: var(--success);
+            box-shadow: 0 0 0 3px rgba(16, 185, 129, 0.1);
+        }
+
+        /* Animations */
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(10px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .fade-in {
+            animation: fadeIn 0.3s ease-out;
+        }
+
+        /* Loading Animation */
+        .loading {
+            display: inline-block;
+            width: 20px;
+            height: 20px;
+            border: 3px solid rgba(255, 255, 255, 0.3);
+            border-radius: 50%;
+            border-top-color: white;
+            animation: spin 1s ease-in-out infinite;
+        }
+
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+
+        /* Notification */
+        .notification {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            padding: 1rem 1.5rem;
+            border-radius: 8px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+            transform: translateX(400px);
+            transition: transform 0.3s ease;
+            z-index: 1000;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .notification.show {
+            transform: translateX(0);
+        }
+
+        .notification.success {
+            background-color: var(--success);
+            color: white;
+        }
+
+        .notification.error {
+            background-color: var(--error);
+            color: white;
+        }
+
+        .notification.warning {
+            background-color: var(--warning);
+            color: white;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .input-section {
+                grid-template-columns: 1fr;
+            }
+            
+            .stats-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .button-container {
+                flex-direction: column;
+            }
+            
+            .btn {
+                width: 100%;
+                justify-content: center;
+            }
+
+            .logo-container {
+                flex-direction: column;
+                gap: 0.5rem;
+            }
+
+            .format-display {
+                font-size: 0.65rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header class="header">
+        <div class="header-content">
+            <div class="logo-container">
+                <div class="logo-img">
+                    <img src="https://i.imgur.com/CIA4ZyD.png" alt="Snowbot Logo" onerror="this.style.display='none'; this.parentElement.innerHTML='🐺';">
+                </div>
+                <div>
+                    <span class="logo-text">Snowbot 4G Proxy Formatter</span>
+                    <span class="version-badge">Reset Edition</span>
+                </div>
+            </div>
+            <div style="color: var(--text-secondary); font-size: 0.875rem;">
+                Format professionnel avec lien de reset
+            </div>
+        </div>
+    </header>
+
+    <div class="container">
+        <!-- Settings Card -->
+        <div class="settings-card fade-in">
+            <div class="card-header">
+                <h2 class="card-title">
+                    <div class="card-icon">⚙️</div>
+                    Configuration
+                </h2>
+            </div>
+            <div class="settings-grid">
+                <div class="setting-item">
+                    <label class="setting-label">Utilisation par proxy stable</label>
+                    <input type="number" id="stableUsageCount" class="setting-input" value="16" min="1" max="100">
+                </div>
+                <div class="setting-item">
+                    <label class="setting-label">Nombre de proxies à générer</label>
+                    <input type="number" id="totalProxiesCount" class="setting-input" value="100" min="1" max="1000">
+                </div>
+            </div>
+        </div>
+
+        <!-- Input Section -->
+        <div class="input-section">
+            <div class="input-group">
+                <div class="input-card single-proxy fade-in">
+                    <div class="card-header">
+                        <h2 class="card-title">
+                            <div class="card-icon orange">📱</div>
+                            Proxy 4G
+                        </h2>
+                    </div>
+                    <div class="info-box orange">
+                        Format attendu: <code>host:port:user:password</code><br>
+                        Exemple: <code>4g-proxy.example.com:8080:username:password</code>
+                    </div>
+                    <textarea id="4gProxy" class="single-proxy-input" placeholder="Collez votre proxy 4G ici...
+4g-proxy.example.com:8080:username:password"></textarea>
+                </div>
+
+                <div class="input-card reset-link fade-in">
+                    <div class="card-header">
+                        <h2 class="card-title">
+                            <div class="card-icon red">🔄</div>
+                            Lien de Reset IP
+                        </h2>
+                    </div>
+                    <div class="info-box red">
+                        URL de reset du proxy 4G<br>
+                        Exemple: <code>http://4g-proxy.com/reset?key=xyz123</code>
+                    </div>
+                    <input type="text" id="resetLink" class="reset-input" placeholder="http://4g-proxy.com/reset?key=xyz123">
+                </div>
+            </div>
+            
+            <div class="input-card fade-in">
+                <div class="card-header">
+                    <h2 class="card-title">
+                        <div class="card-icon">🔒</div>
+                        Proxies Stables
+                    </h2>
+                </div>
+                <div class="info-box">
+                    Format attendu: <code>host:port:user:password</code><br>
+                    Chaque proxy sera réutilisé selon la configuration
+                </div>
+                <textarea id="stableProxies" placeholder="Collez vos proxies stables ici...
+77.47.152.45:61234:username:password
+82.25.197.92:61234:username:password
+..."></textarea>
+            </div>
+        </div>
+
+        <!-- Output Format Display -->
+        <div class="format-display fade-in">
+            <strong>Format de sortie:</strong> 
+            <span class="format-part">Proxy4g</span>#<span class="format-part">ProxyStable</span>#<span class="format-part">lienreset4G</span>#<span class="format-part">portip4g</span>#<span class="format-part">portipstable</span>#<span class="format-part">usernameip4g</span>#<span class="format-part">usernameipstable</span>#<span class="format-part">passwordip4G</span>#<span class="format-part">passwordipstable</span>
+        </div>
+
+        <!-- Buttons -->
+        <div class="button-container">
+            <button onclick="formatProxies()" class="btn btn-primary">
+                <span id="formatBtnIcon">🔧</span>
+                <span id="formatBtnText">Formater les Proxies</span>
+            </button>
+            <button onclick="copyToClipboard()" class="btn btn-secondary">
+                📋 Copier le Résultat
+            </button>
+            <button onclick="downloadResult()" class="btn btn-secondary">
+                💾 Télécharger le Résultat
+            </button>
+        </div>
+
+        <!-- Stats -->
+        <div class="stats-container fade-in" id="statsContainer" style="display: none;">
+            <div class="stats-grid" id="stats">
+                <div class="stat-item">
+                    <div class="stat-value" id="stat4G">1</div>
+                    <div class="stat-label">Proxy 4G</div>
+                </div>
+                <div class="stat-item">
+                    <div class="stat-value" id="statStable">0</div>
+                    <div class="stat-label">Proxies Stables</div>
+                </div>
+                <div class="stat-item">
+                    <div class="stat-value" id="statFormatted">0</div>
+                    <div class="stat-label">Proxies Formatés</div>
+                </div>
+                <div class="stat-item">
+                    <div class="stat-value" id="statUsed">0</div>
+                    <div class="stat-label">Stables Utilisés</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Output -->
+        <div class="output-card fade-in">
+            <div class="card-header">
+                <h2 class="card-title">
+                    <div class="card-icon">📄</div>
+                    Résultat Formaté
+                </h2>
+            </div>
+            <div class="info-box">
+                Chaque ligne suit le format spécifié avec le lien de reset intégré
+            </div>
+            <textarea id="output" class="output-textarea" placeholder="Les proxies formatés apparaîtront ici..." readonly></textarea>
+        </div>
+    </div>
+
+    <!-- Notification Container -->
+    <div id="notification" class="notification"></div>
+
+    <script>
+        function parseProxy(text) {
+            const line = text.trim();
+            const parts = line.split(':');
+            if (parts.length === 4) {
+                return {
+                    host: parts[0],
+                    port: parts[1],
+                    user: parts[2],
+                    password: parts[3]
+                };
+            }
+            return null;
+        }
+
+        function parseProxies(text) {
+            return text.trim().split('\n')
+                .filter(line => line.trim())
+                .map(line => {
+                    const parts = line.trim().split(':');
+                    if (parts.length === 4) {
+                        return {
+                            host: parts[0],
+                            port: parts[1],
+                            user: parts[2],
+                            password: parts[3]
+                        };
+                    }
+                    return null;
+                })
+                .filter(proxy => proxy !== null);
+        }
+
+        function showNotification(message, type = 'success') {
+            const notification = document.getElementById('notification');
+            notification.className = `notification ${type} show`;
+            notification.innerHTML = `
+                ${type === 'success' ? '✅' : type === 'error' ? '❌' : '⚠️'} ${message}
+            `;
+            
+            setTimeout(() => {
+                notification.classList.remove('show');
+            }, 3000);
+        }
+
+        function formatProxies() {
+            const formatBtn = document.getElementById('formatBtnText');
+            const formatBtnIcon = document.getElementById('formatBtnIcon');
+            formatBtn.textContent = 'Formatage en cours...';
+            formatBtnIcon.innerHTML = '<div class="loading"></div>';
+
+            setTimeout(() => {
+                const proxy4gText = document.getElementById('4gProxy').value;
+                const resetLink = document.getElementById('resetLink').value.trim();
+                const stableText = document.getElementById('stableProxies').value;
+                const stableUsageCount = parseInt(document.getElementById('stableUsageCount').value) || 16;
+                const totalProxiesCount = parseInt(document.getElementById('totalProxiesCount').value) || 100;
+
+                if (!proxy4gText.trim() || !resetLink || !stableText.trim()) {
+                    showNotification('Veuillez remplir tous les champs avant de formater.', 'warning');
+                    formatBtn.textContent = 'Formater les Proxies';
+                    formatBtnIcon.textContent = '🔧';
+                    return;
+                }
+
+                // Parser le proxy 4G unique
+                const proxy4g = parseProxy(proxy4gText);
+                if (!proxy4g) {
+                    showNotification('Format du proxy 4G invalide. Vérifiez le format.', 'error');
+                    formatBtn.textContent = 'Formater les Proxies';
+                    formatBtnIcon.textContent = '🔧';
+                    return;
+                }
+
+                // Parser les proxies stables
+                const stableProxies = parseProxies(stableText);
+                if (stableProxies.length === 0) {
+                    showNotification('Aucun proxy stable valide trouvé. Vérifiez le format.', 'error');
+                    formatBtn.textContent = 'Formater les Proxies';
+                    formatBtnIcon.textContent = '🔧';
+                    return;
+                }
+
+                const formattedProxies = [];
+                let stableIndex = 0;
+                let stableCounter = 0;
+
+                // Générer le nombre demandé de proxies formatés
+                for (let i = 0; i < totalProxiesCount; i++) {
+                    const stable = stableProxies[stableIndex];
+
+                    // Format: Proxy4g#Proxy stable#lienreset4G#portip4g#portipstable#usernameip4g#usernameipstable#passwordip4G#passwordipstable
+                    const formatted = `${proxy4g.host}#${stable.host}#${resetLink}#${proxy4g.port}#${stable.port}#${proxy4g.user}#${stable.user}#${proxy4g.password}#${stable.password}`;
+                    
+                    formattedProxies.push(formatted);
+
+                    // Incrémenter le compteur pour le proxy stable
+                    stableCounter++;
+                    
+                    // Changer de proxy stable après X utilisations
+                    if (stableCounter >= stableUsageCount) {
+                        stableIndex = (stableIndex + 1) % stableProxies.length;
+                        stableCounter = 0;
+                    }
+                }
+
+                // Afficher le résultat
+                const output = document.getElementById('output');
+                output.value = formattedProxies.join('\n');
+
+                // Afficher les statistiques
+                document.getElementById('statsContainer').style.display = 'block';
+                document.getElementById('stat4G').textContent = '1';
+                document.getElementById('statStable').textContent = stableProxies.length;
+                document.getElementById('statFormatted').textContent = formattedProxies.length;
+                document.getElementById('statUsed').textContent = Math.min(Math.ceil(totalProxiesCount / stableUsageCount), stableProxies.length);
+
+                showNotification('Formatage terminé avec succès !', 'success');
+                formatBtn.textContent = 'Formater les Proxies';
+                formatBtnIcon.textContent = '🔧';
+            }, 500);
+        }
+
+        function copyToClipboard() {
+            const output = document.getElementById('output');
+            if (!output.value) {
+                showNotification('Aucun résultat à copier', 'warning');
+                return;
+            }
+            output.select();
+            document.execCommand('copy');
+            showNotification('Résultat copié dans le presse-papiers!', 'success');
+        }
+
+        function downloadResult() {
+            const output = document.getElementById('output').value;
+            if (!output) {
+                showNotification('Aucun résultat à télécharger', 'warning');
+                return;
+            }
+            
+            const blob = new Blob([output], { type: 'text/plain' });
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = 'proxies_4g_reset_formatted.txt';
+            document.body.appendChild(a);
+            a.click();
+            document.body.removeChild(a);
+            URL.revokeObjectURL(url);
+            
+            showNotification('Fichier téléchargé avec succès!', 'success');
+        }
+
+        // Animation on load
+        window.addEventListener('load', () => {
+            document.querySelectorAll('.fade-in').forEach((el, index) => {
+                el.style.animationDelay = `${index * 0.1}s`;
+            });
+        });
+    </script>
+</body>
+</html>
