@@ -659,10 +659,10 @@
                     </div>
                     <div class="info-box orange">
                         Format attendu: <code>host:port:user:password</code><br>
-                        Exemple: <code>4g-proxy.example.com:8080:username:password</code>
+                        Exemple: <code>mobile-proxy.example.com:8080:username:password</code>
                     </div>
                     <textarea id="4gProxy" class="single-proxy-input" placeholder="Collez votre proxy 4G ici...
-4g-proxy.example.com:8080:username:password"></textarea>
+mobile-proxy.example.com:8080:username:password"></textarea>
                 </div>
 
                 <div class="input-card reset-link fade-in">
@@ -674,10 +674,10 @@
                     </div>
                     <div class="info-box red">
                         URL de reset du proxy 4G<br>
-                        Exemple: <code>https://api.hypeproxy.io/Utils/DirectRenewIp/7f9b6af9</code><br>
+                        Exemple: <code>http://example-proxy.com/reset?key=ABC123XYZ</code><br>
                         <strong>Note:</strong> Les <code>:</code> seront automatiquement remplacés par <code>^</code>
                     </div>
-                    <input type="text" id="resetLink" class="reset-input" placeholder="https://api.hypeproxy.io/Utils/DirectRenewIp/7f9b6af9">
+                    <input type="text" id="resetLink" class="reset-input" placeholder="http://example-proxy.com/reset?key=ABC123XYZ">
                 </div>
             </div>
             
@@ -693,8 +693,8 @@
                     Chaque proxy sera réutilisé selon la configuration
                 </div>
                 <textarea id="stableProxies" placeholder="Collez vos proxies stables ici...
-77.47.152.45:61234:username:password
-82.25.197.92:61234:username:password
+stable-proxy1.example.com:61234:username1:password1
+stable-proxy2.example.com:61234:username2:password2
 ..."></textarea>
             </div>
         </div>
