@@ -674,9 +674,10 @@
                     </div>
                     <div class="info-box red">
                         URL de reset du proxy 4G<br>
-                        Exemple: <code>http://4g-proxy.com/reset?key=xyz123</code>
+                        Exemple: <code>https://api.hypeproxy.io/Utils/DirectRenewIp/7f9b6af9</code><br>
+                        <strong>Note:</strong> Les <code>:</code> seront automatiquement remplacés par <code>^</code>
                     </div>
-                    <input type="text" id="resetLink" class="reset-input" placeholder="http://4g-proxy.com/reset?key=xyz123">
+                    <input type="text" id="resetLink" class="reset-input" placeholder="https://api.hypeproxy.io/Utils/DirectRenewIp/7f9b6af9">
                 </div>
             </div>
             
@@ -749,7 +750,8 @@
                 </h2>
             </div>
             <div class="info-box">
-                Chaque ligne suit le format spécifié avec le lien de reset intégré
+                Chaque ligne suit le format spécifié avec le lien de reset intégré<br>
+                Les <code>:</code> dans le lien sont remplacés par <code>^</code>
             </div>
             <textarea id="output" class="output-textarea" placeholder="Les proxies formatés apparaîtront ici..." readonly></textarea>
         </div>
@@ -849,8 +851,11 @@
                 for (let i = 0; i < totalProxiesCount; i++) {
                     const stable = stableProxies[stableIndex];
 
+                    // Remplacer les ":" par "^" dans le lien de reset
+                    const formattedResetLink = resetLink.replace(/:/g, '^');
+
                     // Format: Proxy4g#Proxy stable#lienreset4G#portip4g#portipstable#usernameip4g#usernameipstable#passwordip4G#passwordipstable
-                    const formatted = `${proxy4g.host}#${stable.host}#${resetLink}#${proxy4g.port}#${stable.port}#${proxy4g.user}#${stable.user}#${proxy4g.password}#${stable.password}`;
+                    const formatted = `${proxy4g.host}#${stable.host}#${formattedResetLink}#${proxy4g.port}#${stable.port}#${proxy4g.user}#${stable.user}#${proxy4g.password}#${stable.password}`;
                     
                     formattedProxies.push(formatted);
 
